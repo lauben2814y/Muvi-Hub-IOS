@@ -11,7 +11,7 @@ npm install
 ## NPM Scripts
 
 - 🔥 `npm start` - run development server
-- 🔧 `npm run build` - build web app for production outputs in the `www/`
+- 🔧 `npm run build` - build app for production outputs in the `www/`
 
 ## Platform IOS
 
@@ -33,7 +33,7 @@ Please note the IOS version support and usage for the plugin as it defers from a
 
 ## Documentation & Resources
 
-Muvi-Hub uses the `Framework 7` UI libary for reference
+Muvi-Hub uses the [Framework 7](https://framework7.io) UI libary for reference
 
 - [Framework7 Core Documentation](https://framework7.io/docs/)
 
