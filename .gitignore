@@ -24,6 +24,7 @@ dist/
 framework7.json
 config.xml
 google-services.json
+GoogleService-info.plist
 muvi_hub.keystore
 jsconfig.json
 placeholders/

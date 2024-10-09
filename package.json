@@ -52,10 +52,8 @@
     "cordova-plugin-inappbrowser": "github:apache/cordova-plugin-inappbrowser",
     "cordova-plugin-local-notification": "github:katzer/cordova-plugin-local-notifications",
     "cordova-plugin-local-notifications": "^1.0.0",
-    "cordova-plugin-navigationbar-color": "github:observaInc/cordova-plugin-navigationbar",
     "cordova-plugin-splashscreen": "github:apache/cordova-plugin-splashscreen",
     "cordova-plugin-statusbar": "github:apache/cordova-plugin-statusbar",
-    "cordova-plugin-statusbar-height": "github:toptive/cordova-plugin-statusbar-height",
     "cordova-plugin-streaming-media": "github:danilf16/cordova-plugin-streaming-media",
     "cordova-plugin-x-socialsharing": "github:EddyVerbruggen/SocialSharing-PhoneGap-Plugin",
     "cpy-cli": "^5.0.0",
@@ -118,10 +116,8 @@
       },
       "cordova-plugin-deeplinks": {},
       "cordova-plugin-x-socialsharing": {},
-      "cordova-plugin-navigationbar-color": {},
       "cordova-plugin-background-download": {},
       "cordova-plugin-file-opener2": {},
-      "cordova-plugin-statusbar-height": {},
       "cordova-plugin-background-mode": {},
       "cordova-plugin-local-notification": {
         "ANDROID_SUPPORT_V4_VERSION": "26.+"
