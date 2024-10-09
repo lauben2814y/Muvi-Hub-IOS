@@ -178,7 +178,7 @@
             var wishListButton = document.querySelector('.wishlist_btn_page_4');
             var isWishListed = wishlist.find(media => media.id == props.media.id);
             if (isWishListed) {
-                wishListButton.firstElementChild.className = 'material-icons';
+                wishListButton.firstElementChild.innerText = 'bookmark_fill';
                 wishListButton.lastElementChild.innerText = 'Added';
                 wishListButton.style.pointerEvents = 'none';
             }
@@ -187,7 +187,7 @@
             var isRequested = requestList.find(media => media.id == props.media.id);
             if (isRequested && !props.media.media_available) {
                 var requestButton = document.querySelector('.request_btn_page_4');
-                requestButton.firstElementChild.className = 'material-icons-outlined';
+                requestButton.firstElementChild.innerText = 'arrowshape_turn_up_right_fill';
                 requestButton.lastElementChild.innerText = 'Sent';
                 requestButton.style.pointerEvents = "none";
             }
@@ -198,7 +198,6 @@
                 $f7.lazyLoad.update();
                 let seasonPreferenceDOM = document.querySelector('.season_preferences_dom1');
                 var changeSeasonBtn = document.querySelector('.change_season_btn_2');
-                console.log(changeSeasonBtn);
 
                 var vjQuery = props.media.vj != '' ? props.media.vj : 'non trans';
                 changeSeasonBtn.innerText = `${seasons[0].name} ${vjQuery}`;
