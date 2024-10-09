@@ -13,4 +13,10 @@ npm install
 - 🔥 `npm start` - run development server
 - 🔧 `npm run build` - build web app for production outputs in the www/
 
-## Plugins
+## Platform IOS
+
+Next we need to install the latest IOS cordova platform version
+
+```
+cordova platform add ios@7.1.1
+```
