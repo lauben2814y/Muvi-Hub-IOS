@@ -1,0 +1,123 @@
+<template>
+    <div class="page no-toolbar" data-name="search_page">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner sliding">
+                <div class="left">
+                    <a href="#" class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Back</span>
+                    </a>
+                </div>
+                <div class="title">Search</div>
+                <div class="subnavbar">
+                    <form class="searchbar discover-search" onsubmit="return false;">
+                        <div class="searchbar-inner">
+                            <div class="searchbar-input-wrap">
+                                <input type="search" placeholder="Search movies and series ..."
+                                    class="discover_input" />
+                                <i class="searchbar-icon"></i>
+                                <span class="input-clear-button"></span>
+                            </div>
+                            <span class="searchbar-disable-button">Cancel</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="preloader" id="search_preloader"></div>
+            <div class="list media-list list-outline-ios list-strong-ios" style="margin: 0;">
+                <ul class="search_dom">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style>
+
+</style>
+
+<script>
+    export default function (props, { $f7, $on, $, $store }) {
+        $on("pageInit", (e, page) => {
+            const options2 = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTRjMDcwNTQ4MTEwNTc1MGY2NTYwNWVmNzhiMTEzOCIsInN1YiI6IjY2NGE0NmI2Y2NkMWIyYmUyODkyZmY2MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.N65dSOgnFiBMsCeNfZdA3WoLHMxZQJ4oMFNeIzn0S9o'
+                }
+            };
+
+            var discoverInput = document.querySelector('.discover_input');
+            var searchDOM = document.querySelector('.search_dom');
+            var preloader = document.getElementById('search_preloader');
+
+            function debounce(func, delay) {
+                let timer;
+                return function () {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(() => {
+                        func.apply(context, args);
+                    }, delay);
+                };
+            }
+            async function fetchSearchRsults(query) {
+                const response = await fetch(`https://api.themoviedb.org/3/search/multi?query=${query}&include_adult=false&language=en-US&page=1`, options2);
+                const data = await response.json();
+                return data;
+            }
+            // function to fire on every search
+            function performSearch() {
+                // Put your search logic here
+                searchDOM.innerHTML = '';
+                preloader.style.display = "block";
+                var searchValue = discoverInput.value;
+                var query = encodeURIComponent(searchValue);
+                fetchSearchRsults(query)
+                    .then((data) => {
+                        preloader.style.display = "none";
+                        var filteredData = data.results.filter(result => result.media_type !== "person" && result.poster_path !== null);
+                        filteredData.forEach(media => {
+                            var nameProperty;
+                            var mediaType;
+                            if (media.first_air_date) {
+                                nameProperty = 'original_name';
+                                mediaType = "Tv show"
+                            } else {
+                                nameProperty = "title";
+                                mediaType = "Movie";
+                            }
+                            let list = document.createElement('li');
+                            list.innerHTML = `
+                                <a class="item-link test_search-item movie_poster" data-id="${media.id}" data-name="${media.media_type}" data-page="main">
+                                    <div class="item-content" style="pointer-events: none;">
+                                        <div class="item-media">
+                                            <img style="border-radius: 8px" src="./pages/placeholder.webp" data-src="https://image.tmdb.org/t/p/w500${media.poster_path}"
+                                            class="list_poster_img lazy" />
+                                        </div>
+                                        <div class="item-inner">
+                                                <div class="item-title-row">
+                                                <div class="item-title">${media[nameProperty]}</div>
+                                            </div>
+                                        <div class="item-subtitle" style="margin: 3px 0;">${mediaType}</div>
+                                        <div class="item-text">${media.overview}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            `
+                            searchDOM.appendChild(list);
+                        })
+                        $f7.lazyLoad.update();
+                    })
+            }
+            discoverInput.addEventListener('input', debounce(performSearch, 500));
+        });
+        // Return render function
+        return $render;
+    }
+</script>

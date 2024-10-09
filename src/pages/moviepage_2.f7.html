@@ -1,0 +1,267 @@
+<template>
+    <div class="page no-toolbar" data-name="movie_details" data-id="details_pages">
+        <div class="page-content remove-padding">
+            <main>
+                <header id="header" class="movie_page_2_header">
+                    <img class="backdrop-img lazy" src="./pages/back_placeholder.jpeg"
+                        data-src="https://image.tmdb.org/t/p/w1280${props.media.backdrop_path}" />
+                    <div class="overlay"></div>
+                    <div class="details">
+                        <div class="overview">
+                            <img src="./pages/placeholder.webp"
+                                data-src="https://image.tmdb.org/t/p/w500/${props.media.poster_path}"
+                                class="poster lazy" />
+                            <div class="stats">
+                                ${props.media.logo_path != null ? $h`
+                                <img src="https://image.tmdb.org/t/p/w300${props.media.logo_path}" class="logo" />
+                                ` : $h`
+                                <h2>${props.media.title}</h2>
+                                `}
+                                <div>
+                                    <span>
+                                        <i class="f7-icons">star_fill</i>
+                                        ${props.media.vote_average}
+                                    </span>
+                                    <span class="movie_page_2_year">${props.media.year}</span>
+                                    <span class="movie_page_2_runtime">${props.media.runtime}</span>
+                                    <span class="movie_page_2_genres">${props.media.genres_text}</span>
+                                </div>
+                            </div>
+                        </div>
+                        ${props.media.media_available ? $h`
+                        ${props.media.vj != "" ? $h`
+                        <div class="buttons grid grid-cols-2 grid-gap">
+                            <button class="button button-large button-fill watch_media_btn"
+                                data-id="${props.media.id}">${props.media.vj}</button>
+                            <button class="button button-large button-fill download_btn"
+                                data-id="${props.media.id}">${props.media.vj}</button>
+                        </div>
+                        ` : $h`
+                        <div class="buttons grid grid-cols-2 grid-gap">
+                            <button class="button button-large button-fill watch_media_btn"
+                                data-id="${props.media.id}">Watch</button>
+                            <button class="button button-large button-fill download_btn"
+                                data-id="${props.media.id}">Download</button>
+                        </div>
+                        `}
+                        ` : $h`
+                        <div class="unavailable">
+
+                        </div>
+                        `}
+                        <div class="action_buttons">
+                            <div class="action_button action_icon wishlist_btn_page_2" data-action="wishlistPage"
+                                data-id="${props.media.id}">
+                                <i class="f7-icons">bookmark</i>
+                                <span>Wishlist</span>
+                            </div>
+                            ${!props.media.media_available && $h`
+                            <div class="action_button action_icon request_btn_page_2" data-action="request"
+                                data-id="${props.media.id}" data-name="${props.media.title}"
+                                data-type="${props.media.media_type}">
+                                <i class="f7-icons">chat_bubble</i>
+                                <span>Request</span>
+                            </div>
+                            `}
+                            <div class="action_button share_btn" data-id="${props.media.id}" data-type="movie"
+                                data-name="${props.media.title}"
+                                data-poster="https://image.tmdb.org/t/p/w500/${props.media.poster_path}">
+                                <i class="f7-icons">arrowshape_turn_up_right</i>
+                                <span>Share</span>
+                            </div>
+                            <div class="action_button" id="gallery_id_1">
+                                <i class="f7-icons">camera</i>
+                                <span>Gallery</span>
+                            </div>
+                            ${props.media.trailers && $h`
+                            <div class="action_button play_trailer trailer_btn"
+                                data-key="${props.media.trailers[0].key}">
+                                <i class="f7-icons" style="pointer-events: none;">play</i>
+                                <span>Trailer</span>
+                            </div>
+                            `}
+                        </div>
+                    </div>
+                </header>
+                <section>
+                    <div class="toolbar tabbar page_toolbar_2">
+                        <div class="toolbar-inner">
+                            ${props.media.belongs_to_collection != null ? $h`
+                            <a href="#collection1" class="tab-link tab-link-active">Collection</a>
+                            <a href="#overview1" class="tab-link">Overview</a>
+                            <a href="#cast1" class="tab-link">Cast</a>
+                            <a href="#related_movie_page_2" class="tab-link">Related</a>
+                            ` : $h`
+                            <a href="#overview1" class="tab-link tab-link-active">Overview</a>
+                            <a href="#cast1" class="tab-link">Cast</a>
+                            <a href="#related_movie_page_2" class="tab-link">Related</a>
+                            `}
+                        </div>
+                    </div>
+                    <div class="tabs">
+                        ${props.media.belongs_to_collection != null ? $h`
+                        <div id="collection1" class="page-content tab tab-active">
+                            <div class="list media-list  list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="page_2_collection">
+
+                                </ul>
+                                <div class="preloader infinite-scroll-preloader" id="collection_preloader1"></div>
+                            </div>
+                        </div>
+                        <div id="overview1" class="page-content tab">
+                            <div class="block">${props.media.overview}</div>
+                        </div>
+                        <div id="cast1" class="page-content tab">
+                            <div class="list media-list  list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="cast_page_2">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="related_movie_page_2" class="page-content tab infinite-scroll-content">
+                            <div class="list media-list  list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="page_2_related">
+
+                                </ul>
+                                <div class="preloader infinite-scroll-preloader" id="related_2_preloader"></div>
+                            </div>
+                        </div>
+                        ` : $h`
+                        <div id="overview1" class="page-content tab tab-active">
+                            <div class="block movie_page_2_overview">${props.media.overview}</div>
+                        </div>
+                        <div id="cast1" class="page-content tab">
+                            <div class="list media-list  list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="cast_page_2">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="related_movie_page_2" class="page-content infinite-scroll-content tab">
+                            <div class="list media-list  list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="page_2_related">
+
+                                </ul>
+                                <div class="preloader infinite-scroll-preloader" id="related_2_preloader"></div>
+                            </div>
+                        </div>
+                        `}
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</template>
+
+<style>
+
+</style>
+
+<script>
+    import ui from '../js/pages.ui';
+    import Storage from '../js/storage';
+
+    export default function (props, { $f7, $on, $ }) {
+        $on('pageBeforeIn', (e, page) => {
+            $f7.lazyLoad.update();
+        });
+
+        $on("pageInit", async (e, page) => {
+            // Photo browser
+            var posters = props.media.images.posters.map(image => {
+                return `https://image.tmdb.org/t/p/w500${image.file_path}`
+            });
+            var standalone = $f7.photoBrowser.create({
+                photos: posters,
+                thumbs: posters,
+                type: 'page', // Type of the Photo Browser ('standalone', 'popup', 'page');
+                theme: 'dark',
+            });
+            $('#gallery_id_1').on('click', () => {
+                standalone.open();
+            })
+            // Utilities
+            function renderTime(minutes) {
+                if (isNaN(minutes) || minutes < 0) {
+                    return "Invalid input";
+                }
+                const hours = Math.floor(minutes / 60);
+                const remainingMinutes = minutes % 60;
+                if (hours === 0) {
+                    return `${remainingMinutes}min`;
+                } else if (remainingMinutes === 0) {
+                    return `${hours}hr`;
+                } else {
+                    return `${hours}hr ${remainingMinutes}min`;
+                }
+            }
+            var runtime = document.querySelector('.movie_page_2_runtime');
+            runtime.innerText = renderTime(props.media.runtime);
+
+            // Check wishlist
+            var wishlist = Storage.getWishlist();
+            var wishListButton = document.querySelector('.wishlist_btn_page_2');
+            var isWishListed = wishlist.find(media => media.id == props.media.id);
+            if (isWishListed) {
+                wishListButton.firstElementChild.className = 'material-icons';
+                wishListButton.lastElementChild.innerText = 'Added';
+                wishListButton.style.pointerEvents = 'none';
+            }
+            // Check requested
+            var requestList = Storage.getRequestList();
+            var isRequested = requestList.find(media => media.id == props.media.id);
+            if (isRequested && !props.media.media_available) {
+                var requestButton = document.querySelector('.request_btn_page_2');
+                requestButton.firstElementChild.className = 'material-icons-outlined';
+                requestButton.lastElementChild.innerText = 'Sent';
+                requestButton.style.pointerEvents = "none";
+            }
+            // Collection logic
+            if (props.media.belongs_to_collection != null) {
+                var collectionDOM = document.querySelector('.page_2_collection');
+                let collectionData = await ui.getCollectionData(props.media.belongs_to_collection.id);
+                var collection = collectionData.filter((data) => data.id != props.media.id);
+                ui.renderCollection(collection, collectionDOM, 'main');
+                $('#collection_preloader1').remove();
+            }
+            // Cast logic
+            var castDOM = document.querySelector('.cast_page_2');
+            var castArr = props.media.cast.slice(0, 10);
+            if (castArr.length > 0) {
+                ui.renderCast(castArr, castDOM);
+            }
+            $f7.lazyLoad.update();
+
+            // Related logic
+            var relatedDOM = document.querySelector('.page_2_related');
+            var currentPage = 2;
+            let recommended = await ui.getRecommendedMovies(props.media.id, 1);
+            ui.renderCollection(recommended, relatedDOM, 'main');
+            $f7.lazyLoad.update();
+
+
+            var loading = false
+            $('#related_movie_page_2').on('infinite', () => {
+                if (!loading) {
+                    loading = true;
+                    setTimeout(async () => {
+                        let recommended = await ui.getRecommendedMovies(props.media.id, currentPage);
+                        ui.renderCollection(recommended, relatedDOM, 'main');
+                        $f7.lazyLoad.update();
+                        currentPage += 1;
+
+                        if (recommended.length == 0) {
+                            $f7.infiniteScroll.destroy('#related_movie_page_2');
+                            $('#related_2_preloader').remove();
+                        }
+                        loading = false;
+                    }, 500);
+                }
+            })
+
+        });
+
+        // render function
+        return $render;
+    }
+</script>

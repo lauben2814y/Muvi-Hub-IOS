@@ -1,0 +1,215 @@
+@media (max-width: 400px) {
+  /* framework 7 custom styles */
+  .ios {
+    --f7-navbar-large-title-font-size: 30px;
+  }
+
+  /* input fields */
+  .md .item-input .item-content,
+  .md .item-input.item-content {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .signup-button,
+  .login-button {
+    height: 36px;
+  }
+
+  .login_header {
+    height: 35vh;
+  }
+
+  .login-screen-txt {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .signInInputs i {
+    transform: scale(0.8);
+  }
+
+  .downloads-page-content .item-media .overlay {
+    width: 140px;
+    height: 90px;
+  }
+
+  .downloads-page-content .item-inner {
+    padding-top: 20px;
+  }
+
+  .cancel_download_btn,
+  .play_downloaded_video {
+    transform: scale(1.8);
+  }
+
+  /* pages */
+  header .details .overview .stats span {
+    margin-right: 8px;
+    font-size: 12px;
+  }
+
+  header .details .overview .logo {
+    display: block;
+    width: 6rem;
+  }
+
+  header .details .overview .poster {
+    width: 100px;
+    height: 150px;
+  }
+
+  header .details .action_buttons .action_button {
+    margin-right: 30px;
+  }
+
+  header .details .overview .stats {
+    font-weight: 400;
+  }
+
+  header .details .overview .stats span:nth-child(1) i {
+    color: #ffd700;
+    margin-top: -6px;
+    transform: scale(0.8);
+  }
+
+  header .details .overview .stats span:nth-child(4) {
+    display: block;
+    line-height: 1.4;
+    padding-left: 8px;
+    margin-top: -10px;
+  }
+
+  header .details .action_buttons .action_button span:nth-child(1) {
+    pointer-events: none;
+    transform: scale(0.9);
+  }
+
+  header .details .action_buttons .action_button span:nth-child(2) {
+    line-height: 0.1;
+    margin: 12px 0 0 0;
+    font-size: 11px;
+  }
+
+  .container .header a {
+    font-size: 12px;
+  }
+
+  .details .buttons button {
+    height: 38px;
+  }
+
+  .still_image {
+    width: 130px;
+    height: 85px;
+  }
+
+  .container .content .media .media_vj {
+    font-size: 10px;
+  }
+
+  .container .content .media .newSpan {
+    font-size: 10px;
+  }
+
+  .episodes .item-inner i {
+    transform: scale(0.8);
+  }
+
+  .episodes .item-media i {
+    transform: scale(1);
+  }
+
+  .unavailable {
+    margin: 6px 0;
+  }
+
+  .media-list .item-link .item-title-row:before,
+  li.media-item .item-link .item-title-row:before {
+    transform: scale(0);
+  }
+
+  .tabs .block {
+    font-size: 10px;
+    padding-left: 12px;
+  }
+
+  .md .tabbar i.icon::before,
+  .md .tabbar-icons i.icon::before {
+    width: 56px;
+    height: 28px;
+  }
+
+  /* lists on pages  */
+  .list_poster_img {
+    width: 70px;
+    height: 90px;
+  }
+
+  /* containers */
+  .container {
+    margin: 0 0.5rem;
+  }
+
+  .container .header {
+    font-size: 12px;
+  }
+
+  /* slider responsiveness */
+  #main-swiper .swiper-slide {
+    width: 140px;
+    height: 220px;
+  }
+
+  .container .content .media_card {
+    width: 110px;
+  }
+
+  .container .content .media {
+    width: 110px;
+    height: 170px;
+  }
+
+  .container .content .details h4 {
+    font-size: 12px;
+  }
+
+  .container .content .details p {
+    font-size: 10px;
+  }
+
+  .container .content {
+    gap: 7px;
+  }
+
+  .swiper_details h2 {
+    font-size: 15px;
+    margin-top: 6px;
+    margin-bottom: 0px;
+  }
+
+  .swiper_details ul {
+    font-size: 12px;
+    margin: 5px;
+  }
+
+  .slider_buttons {
+    margin: 0px 5px;
+  }
+
+  .slider_buttons .preview_btn_movie,
+  .slider_buttons .preview_btn_movie1 {
+    height: 38px;
+  }
+
+  .slider_button span:nth-child(2) {
+    line-height: 1.4;
+    font-size: 10px;
+  }
+
+  .slider_button span:nth-child(1) {
+    transform: scale(0.9);
+  }
+}

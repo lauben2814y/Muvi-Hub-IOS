@@ -1,0 +1,65 @@
+<template>
+    <div class="page no-toolbar" data-name="about">
+        <div class="page-content update-page">
+            <div class="block up-date-info">
+                <img src="./pages/logo.png" alt="" srcset="" />
+                <h1>Muvi Hub needs an update</h1>
+                <h3>Muvi Hub needs an update to continue working smoothly please update to the latests version available
+                    on Google Play</h3>
+                <button class="button button-fill update-playstore-btn">Update</button>
+            </div>
+            <div class="google-play">
+                <img src="./pages/playstore.svg" />
+                <h3>Google Play</h3>
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<style>
+    .update-page {
+        position: relative;
+    }
+
+    .update-page .google-play {
+        position: absolute;
+        bottom: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .update-page .google-play img {
+        width: 30px;
+    }
+
+    .update-page .google-play h3 {
+        margin-left: 10px;
+    }
+
+    .up-date-info {
+        margin-top: 50%;
+    }
+
+    .up-date-info img {
+        display: block;
+        width: 70px;
+        margin: 0 auto;
+    }
+
+    .up-date-info h1,
+    h3 {
+        text-align: center;
+    }
+</style>
+
+<script>
+    export default function (props, { $f7, $on, $ }) {
+
+
+        // Return render function
+        return $render;
+    }
+</script>

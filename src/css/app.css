@@ -1,0 +1,140 @@
+/* Your app custom styles here */
+:root {
+  --f7-grid-gap: 8px;
+}
+
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* container styles */
+
+.container {
+  margin: 0 0.5rem;
+}
+
+.container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 38px;
+  margin: 0 0 5px 0;
+}
+
+.container .header h3 {
+  color: #ffffffe8;
+}
+
+.container .header a {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.container .content {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 15px;
+  overflow-x: scroll;
+}
+
+.container .content::-webkit-scrollbar {
+  display: none;
+}
+
+.container .content .media_card {
+  width: 140px;
+  overflow: hidden;
+}
+
+.container .content .media {
+  position: relative;
+  width: 140px;
+  height: 200px;
+  border-radius: 5px;
+}
+
+.container .content .media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.container .content .media .media_vj {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background-color: #30262e;
+  padding: 2px 5px;
+  border-top-right-radius: 5px;
+}
+
+.container .content .media .newSpan {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-color: rgb(255, 0, 0);
+  padding: 2px 5px;
+  border-top-left-radius: 5px;
+}
+
+.container .content .details h4 {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.769);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.container .content .details p {
+  margin: 0;
+  color: gray;
+}
+
+/* lazy load fade animation */
+
+.lazyloadedFade {
+  animation-fill-mode: both;
+  animation: fadeIn 500ms ease backwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.download_dom .now_btn {
+  position: absolute;
+  right: 2px;
+  z-index: 1;
+  color: var(--f7-theme-color);
+}
+
+.still_image {
+  width: 160px;
+  height: 100px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  line-height: 0;
+}
+
+.panel-header img {
+  border-radius: 50%;
+}
+
+.panel-header p {
+  margin: 1em 0;
+  font-size: 12px;
+}

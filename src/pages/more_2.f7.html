@@ -1,0 +1,322 @@
+<template>
+    <div class="page no-toolbar" data-name="more_page">
+        <div class="navbar no-shadow no-border">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Back</span>
+                    </a>
+                </div>
+                <div class="title">${props.title}</div>
+                <div class="right">
+                    <a class="link icon-only filter-btn">
+                        <i class="f7-icons" style="pointer-events: none;">funnel</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content infinite-scroll-content" id="more_scroll">
+            ${props.type == "movie" ? $h`
+            <div class="block block-strong filter-container" style="margin: 0;">
+                <h4 class="filter-title">Filter by Genre</h4>
+                <div class="grid grid-cols-4 grid-gap">
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Action"
+                        data-no="28">Action</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Adventure"
+                        data-no="12">Adventure</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Animation"
+                        data-no="16">Animation</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Comedy"
+                        data-no="35">Comedy</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Crime"
+                        data-no="80">Crime</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Science Fiction"
+                        data-no="878">Sci-Fi</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Romance"
+                        data-no="10749">Romance</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Thriller"
+                        data-no="53">Thriller</button>
+                </div>
+                <button class="button button-outline apply-filter-btn" style="margin-top: 10px;" disabled>
+                    Apply
+                </button>
+            </div>
+            ` : $h`
+            <div class="block block-strong filter-container" style="margin: 0;">
+                <h4 class="filter-title">Filter by Genre</h4>
+                <div class="grid grid-cols-4 grid-gap">
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Action & Adventure"
+                        data-no="10759">Acti&Adve</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Animation"
+                        data-no="16">Animation</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Comedy"
+                        data-no="35">Comedy</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Drama"
+                        data-no="18">Drama</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Crime"
+                        data-no="80">Crime</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Sci-Fi & Fantasy"
+                        data-no="10765">Sci&Fant</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Soap"
+                        data-no="10766">Soap</button>
+                    <button class="button button-outline button-round filter-genre-btn" data-id="Family"
+                        data-no="10751">Family</button>
+                </div>
+                <button class="button button-outline apply-filter-btn" style="margin-top: 10px;" disabled>
+                    Apply
+                </button>
+            </div>
+            `}
+            <div class="more_dom movies_dom">
+
+            </div>
+            <div class="preloader infinite-scroll-preloader" id="more_preloader"></div>
+        </div>
+    </div>
+</template>
+
+<style>
+    .filter-title {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .more_dom {
+        padding: 5px;
+    }
+
+    .more_dom {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+        column-gap: 10px;
+        row-gap: 5px;
+    }
+
+    .more_dom .media_card {
+        overflow: hidden;
+    }
+
+    .more_dom .media {
+        position: relative;
+        height: 220px;
+        background-color: #515151;
+        border-radius: 5px;
+    }
+
+    .more_dom .media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .more_dom .media .media_vj {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        background-color: #30262e;
+        padding: 2px 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .more_dom .details h4 {
+        margin: 5px 0;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.769);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .more_dom .details p {
+        margin: 0;
+        color: gray;
+    }
+
+    @media (max-width: 400px) {
+        .more_dom {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+            column-gap: 10px;
+        }
+
+        .more_dom .media {
+            height: 170px;
+        }
+
+        .more_dom .details h4 {
+            font-size: 12px;
+        }
+
+        .more_dom .details p {
+            font-size: 10px;
+        }
+
+        .more_dom .media .media_vj {
+            font-size: 10px;
+        }
+    }
+</style>
+
+<script>
+    var currentPosition;
+
+    export default function (props, { $, $f7, $on }) {
+        $on('pageBeforeIn', (e, page) => {
+            $f7.lazyLoad.update();
+        });
+        $on('pageInit', (e, page) => {
+            var moreDOM = document.querySelector('.more_dom');
+            var genreNames;
+            $f7.ui.renderScrollMedia(props.data, moreDOM);
+            const query = props.title == 'Recently uploaded' ? 'new' : 'latest';
+            currentPosition = props.page + 1;
+            var infiniteState = false;
+            var morePreloader = document.getElementById('more_preloader');
+
+            // Listen for apply button
+            var applyBtn = document.querySelector('.apply-filter-btn');
+
+            applyBtn.addEventListener('click', async () => {
+                currentPosition = 1;  // Reset the current position for new search
+                document.querySelector('.filter-container').classList.remove('show');
+                moreDOM.innerHTML = '';  // Clear previous results
+                if (infiniteState) {
+                    $f7.infiniteScroll.create('#more_scroll');
+                    morePreloader.style.display = 'block';
+                }
+
+                var genreFilterBtns = document.querySelectorAll('.filter-genre-btn');
+                var selected = [...genreFilterBtns].filter(genreFilterBtn => genreFilterBtn.classList.contains('button-fill'));
+                genreNames = [...selected].map(selected => selected.dataset.id);
+
+                let data = [], count = 0, error = null; // Initialize variables
+
+                if (props.type === "movie") {
+                    ({ data, count, error } = await $f7.ui.getGenreMovies(query, 0, 10, genreNames));
+                    console.log('Filtered movies for names', genreNames, data, 'Total', count, props.title);
+
+                } else { // For TV shows
+                    ({ data, count, error } = await $f7.ui.getGenreShows(query, 0, 10, genreNames));
+                    console.log('Filtered tvs for names', genreNames, data, 'Total', count, props.title);
+                }
+
+                // Check for errors
+                if (error) {
+                    console.error('Error occurred while fetching data:', error);
+                    $f7.infiniteScroll.destroy('#more_scroll');
+                    morePreloader.style.display = 'none';
+                    return;  // Exit early
+                }
+
+                // Check if data is returned and handle rendering
+                if (data.length === 0) {
+                    console.log('No results found for the selected genres.');
+                    $f7.infiniteScroll.destroy('#more_scroll');
+                    morePreloader.style.display = 'none';
+                } else {
+                    $f7.ui.renderScrollMedia(data, moreDOM);
+                    $f7.lazyLoad.update();
+                    currentPosition = 11;  // Update currentPosition for potential infinite scroll
+                }
+            });
+
+
+            // Listen for Genre filter buttons
+            var genreFilterBtns = document.querySelectorAll('.filter-genre-btn');
+            genreFilterBtns.forEach(btn => {
+                btn.addEventListener('click', (event) => {
+                    // First toggle the class on the clicked button
+                    event.target.classList.toggle('button-fill');
+
+                    // Then select all buttons again and determine if any are active
+                    var selected = [...genreFilterBtns].filter(genreFilterBtn => genreFilterBtn.classList.contains('button-fill'));
+
+                    // Assuming applyBtn is defined elsewhere, add or remove its class based on the selected buttons
+                    if (selected.length != 0) {
+                        applyBtn.classList.add('button-fill');
+                        applyBtn.disabled = false;
+                    } else {
+                        applyBtn.classList.remove('button-fill');
+                        applyBtn.disabled = true;
+                    }
+                });
+            });
+
+            // Infinite logic
+            var loading = false
+            $('#more_scroll').on('infinite', () => {
+                if (!loading) {
+                    loading = true;
+                    setTimeout(async () => {
+                        let data = [], count = 0, error = null;
+
+                        if (props.type == "movie") {
+                            if (genreNames != null) {
+                                ({ data, count, error } = await $f7.ui.getGenreMovies(query, currentPosition, currentPosition + 10, genreNames));
+                            } else {
+                                console.log('Getting Supabase Movies');
+                                ({ data, count, error } = await $f7.ui.getSupabaseMovies(query, currentPosition, currentPosition + 10));
+                            }
+                        } else {
+                            if (genreNames != null) {
+                                ({ data, count, error } = await $f7.ui.getGenreShows(query, currentPosition, currentPosition + 10, genreNames));
+                            } else {
+                                ({ data, count, error } = await $f7.ui.getSupabaseShows(query, currentPosition, currentPosition + 10));
+                            }
+                        }
+                        console.log(data);
+
+
+                        // Handle any error that occurred during the data fetch
+                        if (error) {
+                            console.error('Error occurred while fetching data:', error);
+                            $f7.infiniteScroll.destroy('#more_scroll');
+                            morePreloader.style.display = 'none';
+
+                            loading = false;
+                            infiniteState = true;
+                            return;
+                        }
+
+                        // Check if data returned is an empty array or if count is less than requested
+                        if (data.length === 0) {
+                            // No data returned, destroy infinite scroll
+                            console.log('No more data to load.');
+                            $f7.infiniteScroll.destroy('#more_scroll');
+                            morePreloader.style.display = 'none';
+
+                            infiniteState = true;
+                        } else {
+                            // Render the data received
+                            console.log('Data returned:', data, 'Total count:', count);
+                            $f7.ui.renderScrollMedia(data, moreDOM);
+                            $f7.lazyLoad.update();
+
+                            // Update currentPosition with the actual count of data received
+                            currentPosition += data.length;
+
+                            // If less data is returned than requested, stop infinite scroll
+                            if (data.length < 10) {
+                                console.log('Less data received, stopping infinite scroll.');
+                                $f7.infiniteScroll.destroy('#more_scroll');
+                                morePreloader.style.display = 'none';
+
+                                infiniteState = true;
+                            }
+                        }
+
+                        loading = false;
+                    }, 500);
+                }
+            });
+
+        })
+        $on('pageBeforeOut', (e, page) => {
+
+        });
+        return $render;
+    }
+</script>

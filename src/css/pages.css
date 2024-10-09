@@ -1,0 +1,391 @@
+main {
+  max-height: 100%;
+  overflow-x: hidden;
+  perspective: 1px;
+  perspective-origin: center top;
+  transform-style: preserve-3d;
+}
+
+/* header styles */
+
+header {
+  position: relative;
+  height: 50vh;
+  background-size: cover;
+  background-position: center center;
+  vertical-align: top;
+  transform-origin: center top;
+  transform: translateZ(-1px) scale(2);
+}
+
+header .backdrop-img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+header .overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(0deg, #1e1a1d 15%, transparent);
+}
+
+header .details {
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+  line-height: 3;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+header .details .buttons {
+  margin: 10px 0;
+  padding: 0 16px;
+}
+
+header .details .overview {
+  display: flex;
+  padding: 0 16px;
+}
+
+header .details .overview .logo {
+  display: block;
+  width: 9rem;
+}
+
+header .details .overview h2 {
+  line-height: 1;
+  margin: 0;
+}
+
+header .details .overview .poster {
+  width: 120px;
+  height: 180px;
+  border-radius: 10px;
+}
+
+header .details .overview .stats {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 16px;
+  font-weight: 600;
+}
+
+header .details .overview .stats span {
+  margin-right: 8px;
+}
+
+header .details .overview .stats span:nth-child(1) i {
+  color: #ffd700;
+  margin-top: -7px;
+}
+
+header .details .overview .stats span:nth-child(4) {
+  display: block;
+  line-height: 1.2;
+  padding-left: 8px;
+}
+
+header .details .action_buttons {
+  position: relative;
+  display: flex;
+  font-weight: 500;
+  padding: 0 16px 8px 16px;
+}
+
+header .details .action_buttons .action_button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 40px;
+}
+
+header .details .action_buttons .trailer_btn {
+  position: absolute;
+  right: 0;
+  margin-right: 16px;
+  z-index: 2;
+}
+
+header .details .action_buttons .action_button span:nth-child(1) {
+  pointer-events: none;
+  transform: scale(1.25);
+}
+
+header .details .action_buttons .action_button span:nth-child(2) {
+  line-height: 0.6;
+  margin: 12px 0 0 0;
+}
+/* section styles */
+
+section {
+  height: 100vh;
+  background: #1e1a1d;
+  transform: translateZ(0);
+}
+
+section .list {
+  margin: 0;
+}
+
+section .block {
+  margin: 0;
+  padding-top: 12px;
+}
+
+.page_toolbar_1,
+.page_toolbar_2 {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #1e1a1d;
+}
+
+section .page-content {
+  padding-top: 0;
+  padding-bottom: 0px;
+}
+
+section .infinite-scroll-content {
+  height: 100vh;
+}
+
+.list_poster_img {
+  width: 90px;
+  height: 120px;
+}
+
+.episodes .item-inner {
+  padding-top: 20px;
+}
+
+.episodes .item-media {
+  position: relative;
+}
+
+.episodes .item-media span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--f7-theme-color);
+}
+
+.episodes .item-inner {
+  position: relative;
+}
+
+.episodes .item-inner i {
+  position: absolute;
+  right: 16px;
+  z-index: 2;
+}
+
+.episodes .item-media i {
+  transform: scale(1.5);
+}
+
+.unavailable {
+  margin: 8px 0;
+}
+
+#app img:not([src]):not([srcset]) {
+  visibility: hidden;
+}
+
+.user_info_list {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* download styles */
+.downloads-page-content .list .item-media {
+  display: inline-block;
+  padding-bottom: 0px;
+}
+
+.downloads-page-content .download-list {
+  margin-top: 0;
+}
+
+.downloads-page-content .item-media .overlay {
+  position: relative;
+  width: 150px;
+  height: 100px;
+  z-index: 1;
+}
+
+.downloads-page-content .item-media .overlay img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  border-radius: 8px;
+}
+
+.downloads-page-content .download-badge {
+  position: absolute;
+  right: 36px;
+  top: 12px;
+}
+
+.downloads-page-content .item-media .overlay .actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #00000060;
+  z-index: 2;
+  border-radius: 8px;
+}
+
+.downloads-page-content .item-media .overlay .actions a {
+  position: absolute;
+  transform: scale(0.7);
+}
+
+.downloads-page-content .item-content.hide .bytes_dom {
+  display: none;
+}
+
+.downloads-page-content .item-content.hide .progress_dom {
+  display: none;
+}
+
+.profile_img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.login_header {
+  height: 40vh;
+}
+
+.messagebar-sheet {
+  display: block;
+}
+
+.messagebar-sheet .searchbar {
+  margin: 8px 8px 0 8px;
+}
+
+.message-sheet-dom {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+}
+
+.md .messagebar-sheet-image {
+  width: auto;
+  height: 180px;
+  border-radius: 10px;
+}
+
+.md .demo-card-header-pic .card-header {
+  margin: 0 16px 16px;
+  border-radius: 16px;
+  position: relative;
+  top: 16px;
+}
+
+.demo-card-header-pic .card-header {
+  height: 40vw;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.error-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.no-internet {
+  width: 128px;
+}
+
+.error-message {
+  width: 95%;
+  text-align: center;
+}
+
+.filter-container {
+  position: fixed;
+  display: none;
+  transition: all 500ms ease;
+  width: 100%;
+}
+
+.filter-container.show {
+  display: block;
+}
+
+#search_preloader {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cancel_download_btn {
+  transform: scale(2.2);
+}
+
+/* Play trailer */
+.o-video {
+  width: 100%;
+  height: 0;
+  position: relative;
+  padding-top: 56.25%; /* 9 / 16 * 100 */
+}
+
+.o-video > iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+}
+
+.video_container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+}
+
+#player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#trailer_player {
+  position: relative;
+  width: 100%;
+}
+
+.remove-padding {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}

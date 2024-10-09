@@ -1,0 +1,53 @@
+<template>
+    <div class="page no-toolbar" data-name="page_name">
+        <div class="navbar no-shadow no-border">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner">
+                <div class="left">
+                    <a class="link icon-only back">
+                        <i class="icon material-icons">arrow_back</i>
+                    </a>
+                </div>
+                <div class="title">Wishlist</div>
+                <div class="right">
+                    <a class="link icon-only">
+                        <i class="icon material-icons">download</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="list media-list list-outline-ios list-strong-ios" style="margin: 0;">
+                <ul class="wishlist_dom">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style>
+    .wishlist_dom .media_card .delete_button {
+        position: absolute;
+        z-index: 2;
+        right: .5rem;
+        top: .2rem;
+    }
+</style>
+
+<script>
+    import ui from '../js/pages.ui';
+    import Storage from '../js/storage';
+
+    export default function (props, { $f7, $on }) {
+        $on("pageInit", (e, page) => {
+            var wishDOM = document.querySelector('.wishlist_dom');
+            var wishlist = Storage.getWishlist();
+            ui.renderCollection(wishlist, wishDOM);
+            $f7.lazyLoad.update();
+        });
+
+        // Return render function
+        return $render;
+    }
+</script>

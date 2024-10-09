@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: content:" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#fff" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <title>Muvi Hub</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="views tabs safe-areas">
+            <div class="toolbar toolbar-bottom tabbar-icons">
+                <div class="toolbar-inner">
+                    <a href="#movies" class="tab-link tab-link-active no-ripple">
+                        <i class="f7-icons">film</i>
+                        <span class="tabbar-label">Movies</span>
+                    </a>
+                    <a href="#tvshows" class="tab-link no-ripple">
+                        <i class="f7-icons">tv</i>
+                        <span class="tabbar-label">Tv shows</span>
+                    </a>
+                    <a href="#download" class="tab-link no-ripple">
+                        <i class="f7-icons">arrow_down_to_line</i>
+                        <span class="tabbar-label">Downloads</span>
+                    </a>
+                </div>
+            </div>
+            <div id="movies" class="view view-main view-init tab tab-active" data-name="movies_page"
+                data-url="/movies/"></div>
+            <div id="tvshows" class="view view-init tab" data-name="shows_page" data-url="/tvshows/"></div>
+            <div id="download" class="view view-init tab" data-name="dowbload_page">
+                <div class="page downloads-page-content" data-name="downloads_page">
+                    <div class="navbar">
+                        <div class="navbar-bg"></div>
+                        <div class="navbar-inner sliding">
+                            <div class="left">
+                                <a class="link icon-only">
+                                    <i class="icon f7-icons if-not-md">menu</i>
+                                    <i class="icon material-icons if-md">download</i>
+                                </a>
+                            </div>
+                            <div class="title">Downloads</div>
+                        </div>
+                    </div>
+                    <div class="toolbar toolbar-top tabbar">
+                        <div class="toolbar-inner">
+                            <a href="#tab-1" class="tab-link tab-link-active no-ripple">
+                                Downloading
+                            </a>
+                            <a href="#tab-2" class="tab-link no-ripple download-tab">
+                                Downloads
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tabs">
+                        <div id="tab-1" class="page-content tab tab-active">
+                            <div
+                                class="list download-list media-list list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="download_dom"></ul>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="page-content tab">
+                            <div
+                                class="list download-list media-list list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="downloaded_dom">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Action sheets -->
+            <div class="actions-modal download-preference-actions">
+                <div class="block-title">Choose download preference</div>
+                <div class="block download_preferences_dom">
+
+                </div>
+            </div>
+            <div class="actions-modal watch-preference-actions">
+                <div class="block-title">Choose watch preference</div>
+                <div class="block watch_preferences_dom">
+
+                </div>
+            </div>
+            <div class="actions-modal episode-preference-actions">
+                <div class="block-title">Choose episode download preference</div>
+                <div class="block episode_preferences_dom">
+
+                </div>
+            </div>
+            <div class="actions-modal episode-watch-preference-actions">
+                <div class="block-title">Choose episode watch preference</div>
+                <div class="block episode_watch_preferences_dom">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- side panel with cover effect-->
+    <div class="panel panel-floating panel-left panel-init panel-resizable">
+        <div class=" view view-right">
+            <div class="page page-current">
+                <div class="navbar">
+                    <div class="navbar-bg"></div>
+                    <div class="navbar-inner sliding">
+                        <div class="title">Muvi Hub</div>
+                    </div>
+                </div>
+                <div class="page-content">
+                    <div class="block">
+                        <div class="panel-header">
+                            <img src="https://cdn.framework7.io/placeholder/cats-300x300-1.jpg" width="70" alt=""
+                                srcset="" />
+                            <p class="google-username"></p>
+                            <p class="google-email"></p>
+                        </div>
+                    </div>
+                    <div class="block-title">Panel Navigation</div>
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <a class="item-link item-content wish-link panel-close">
+                                    <div class="item-media" style="pointer-events: none;">
+                                        <i class="f7-icons">bookmark</i>
+                                    </div>
+                                    <div class="item-inner" style="pointer-events: none;">
+                                        <div class="item-title">Wishlist</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav_link_list">
+                                <a class="item-link item-content panel-close community-link">
+                                    <div class="item-media" style="pointer-events: none;">
+                                        <i class="f7-icons">chat_bubble_2_fill</i>
+                                    </div>
+                                    <div class="item-inner" style="pointer-events: none;">
+                                        <div class="item-title">Join Community</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav_link_list">
+                                <a class="item-link item-content panel-close community-link">
+                                    <div class="item-media" style="pointer-events: none;">
+                                        <i class="f7-icons">pencil</i>
+                                    </div>
+                                    <div class="item-inner" style="pointer-events: none;">
+                                        <div class="item-title">Report an issue</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav_link_list">
+                                <a class="item-link item-content panel-close about-link">
+                                    <div class="item-media" style="pointer-events: none;">
+                                        <i class="f7-icons">info_circle</i>
+                                    </div>
+                                    <div class="item-inner" style="pointer-events: none;">
+                                        <div class="item-title">About</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

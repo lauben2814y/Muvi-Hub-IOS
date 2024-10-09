@@ -1,0 +1,39 @@
+<template>
+    <div class="page no-toolbar" data-name="play_trailer">
+        <div class="page-content trailer_page_content">
+            <div class="o-video">
+                <iframe src="https://www.youtube.com/embed/${props.trailerKey}?rel=0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style>
+    .trailer_page_content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<script>
+    export default function (props, { $f7, $on }) {
+        var orientationType = screen.orientation.type;
+        $on('pageInit', (e, page) => {
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement) {
+                    screen.orientation.lock('landscape');
+                } else {
+                    screen.orientation.lock('portrait');
+                }
+            });
+        });
+        $on('pageBeforeOut', (e, page) => {
+            if (orientationType.includes('landscape')) {
+                screen.orientation.lock('portrait');
+            }
+        });
+        // Return render function
+        return $render;
+    }
+</script>
