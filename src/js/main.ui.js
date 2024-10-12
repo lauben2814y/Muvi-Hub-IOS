@@ -236,17 +236,9 @@ class UI {
     async accessNativeFunctionality() {
         initializeFirebaseApp();
         if (window.cordova) {
-            cordova.plugins.StatusBarHeight.getStatusBarHeight(
-                function (value) {
-                    document.documentElement.style.setProperty('--f7-safe-area-top', `${value}px`);
-                },
-                function (error) {
-                    console.log(error);
-                }
-            );
             this.readInitialDownloads();
             // Handle App links and FCM notification click
-            this.subscribeNotification();
+            // this.subscribeNotification();
             // Local Notification
             cordova.plugins.notification.local.setDefaults({
                 vibrate: false,
@@ -274,20 +266,20 @@ class UI {
                 cordova.plugins.backgroundMode.disableWebViewOptimizations();
             });
             // Firebase notification
-            FirebasePlugin.hasPermission(function (hasPermission) {
-                console.log("Permission is " + (hasPermission ? "granted" : "denied"));
-                FirebasePlugin.getToken(function (fcmToken) {
-                    Storage.saveToken(fcmToken);
-                }, function (error) {
-                    console.error(error);
-                });
-            });
-            FirebasePlugin.subscribe("allUsers", function () {
-                console.log("Subscribed to topic");
-            }, function (error) {
-                console.error("Error subscribing to topic: " + error);
-            }
-            );
+            // FirebasePlugin.hasPermission(function (hasPermission) {
+            //     console.log("Permission is " + (hasPermission ? "granted" : "denied"));
+            //     FirebasePlugin.getToken(function (fcmToken) {
+            //         Storage.saveToken(fcmToken);
+            //     }, function (error) {
+            //         console.error(error);
+            //     });
+            // });
+            // FirebasePlugin.subscribe("allUsers", function () {
+            //     console.log("Subscribed to topic");
+            // }, function (error) {
+            //     console.error("Error subscribing to topic: " + error);
+            // }
+            // );
             // handle ads
             this.loadInterstitial();
         }
@@ -462,9 +454,9 @@ class UI {
             // Check for review
             await this.checkReview();
             // Check for updates
-            await this.checkForUpdates();
+            // await this.checkForUpdates();
             // Subscribe App links
-            this.subscribeAppLink();
+            // this.subscribeAppLink();
             // Subscribe Rewarded Interstitial Add
             app.$$(document).on('page:beforein', async (e) => {
                 if (e.target.id == 'main') {
@@ -1233,7 +1225,24 @@ class UI {
             let parts = url.split('.');
             var ext = parts[parts.length - 1];
             var fileName = `${title.replace(/[:,\-_\s?!'\"@()]/g, '')}.${ext}`;
-            console.log(url, backdropURL, title, fileName);
+            // console.log(url, backdropURL, title, fileName);
+            var Downloader = window.plugins.Downloader;
+
+            var downloadSuccessCallback = function (folder) {
+                console.log(folder);
+            };
+
+            var downloadErrorCallback = function (error) {
+                // error: string
+            };
+
+
+            var options = {
+                url: url, // File Url
+                path: fileName, // The File Name with extension
+            }
+
+            Downloader.download(options, downloadSuccessCallback, downloadErrorCallback);
 
             var id = Date.now();
             var file = {
@@ -1462,13 +1471,17 @@ class UI {
             Storage.saveWishList(newWishlist);
             parentDOM.removeChild(card);
         } else if (target.classList.contains('share_btn')) {
-            var mediaId = event.target.dataset.id;
-            var type = event.target.dataset.type;
-            var posterUrl = event.target.dataset.poster;
-            var mediaName = event.target.dataset.name;
-            console.log(type, mediaId);
-            var link = `https://kamumedia.online/${type}/${mediaId}`;
-            window.plugins.socialsharing.share(`${mediaName}`, null, `${posterUrl}`, link);
+            // var mediaId = event.target.dataset.id;
+            // var type = event.target.dataset.type;
+            // var posterUrl = event.target.dataset.poster;
+            // var mediaName = event.target.dataset.name;
+            // console.log(type, mediaId);
+            // var link = `https://kamumedia.online/${type}/${mediaId}`;
+            // window.plugins.socialsharing.share(`${mediaName}`, null, `${posterUrl}`, link);
+            app.toast.create({
+                text: 'Coming soon',
+                closeTimeout: 2000,
+            }).open();
         } else if (event.target.classList.contains('play_downloaded_video')) {
             let url = event.target.dataset.url;
             cordova.plugins.fileOpener2.showOpenWithDialog(
@@ -1501,8 +1514,6 @@ class UI {
             } else {
                 app.views.current.router.navigate('/about/');
             }
-        } else if (target.classList.contains('simulate-btn')) {
-            let data = await this.simulateFetchAll();
         } else if (target.classList.contains('wish-link')) {
             app.views.current.router.navigate('/wishlist/');
         } else if (target.classList.contains('about-link')) {
