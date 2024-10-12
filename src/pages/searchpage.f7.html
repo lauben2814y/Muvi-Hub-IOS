@@ -11,7 +11,7 @@
                 </div>
                 <div class="title">Search</div>
                 <div class="subnavbar">
-                    <form class="searchbar discover-search" onsubmit="return false;">
+                    <form class="searchbar discover-search">
                         <div class="searchbar-inner">
                             <div class="searchbar-input-wrap">
                                 <input type="search" placeholder="Search movies and series ..."
@@ -54,6 +54,7 @@
             var discoverInput = document.querySelector('.discover_input');
             var searchDOM = document.querySelector('.search_dom');
             var preloader = document.getElementById('search_preloader');
+            var discoverForm = document.querySelector('.discover-search');
 
             function debounce(func, delay) {
                 let timer;
@@ -116,6 +117,10 @@
                     })
             }
             discoverInput.addEventListener('input', debounce(performSearch, 500));
+            discoverForm.addEventListener('submit', (e) => {
+                performSearch();
+                e.preventDefault();
+            });
         });
         // Return render function
         return $render;
