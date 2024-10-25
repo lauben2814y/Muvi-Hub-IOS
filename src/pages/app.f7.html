@@ -1,0 +1,319 @@
+<template>
+    <div id="app">
+        <div class="views tabs safe-areas">
+            <div class="toolbar toolbar-bottom tabbar-icons">
+                <div class="toolbar-inner">
+                    <a href="#movies" class="tab-link tab-link-active no-ripple">
+                        <i class="f7-icons">film</i>
+                        <span class="tabbar-label">Movies</span>
+                    </a>
+                    <a href="#tvshows" class="tab-link no-ripple">
+                        <i class="f7-icons">tv</i>
+                        <span class="tabbar-label">Tv shows</span>
+                    </a>
+                    <a href="#download" class="tab-link no-ripple">
+                        <i class="f7-icons">arrow_down_to_line</i>
+                        <span class="tabbar-label">Downloads</span>
+                    </a>
+                </div>
+            </div>
+            <div id="movies" class="view view-main view-init tab tab-active" data-name="movies_page"
+                data-url="/movies/"></div>
+            <div id="tvshows" class="view view-init tab" data-name="shows_page" data-url="/tvshows/"></div>
+            <div id="download" class="view view-init tab" data-name="dowbload_page">
+                <div class="page downloads-page-content" data-name="downloads_page">
+                    <div class="navbar">
+                        <div class="navbar-bg"></div>
+                        <div class="navbar-inner sliding">
+                            <div class="left">
+                                <a class="link icon-only">
+                                    <i class="icon f7-icons if-not-md">menu</i>
+                                    <i class="icon material-icons if-md">download</i>
+                                </a>
+                            </div>
+                            <div class="title">Downloads</div>
+                        </div>
+                    </div>
+                    <div class="toolbar toolbar-top tabbar">
+                        <div class="toolbar-inner">
+                            <a href="#tab-1" class="tab-link tab-link-active no-ripple">
+                                Downloading
+                            </a>
+                            <a href="#tab-2" class="tab-link no-ripple download-tab">
+                                Downloads
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tabs">
+                        <div id="tab-1" class="page-content tab tab-active">
+                            <div
+                                class="list download-list media-list list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="download_dom"></ul>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="page-content tab">
+                            <div
+                                class="list download-list media-list list-outline-ios list-strong-ios list-dividers-ios">
+                                <ul class="downloaded_dom">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Action sheets -->
+            <div class="actions-modal download-preference-actions">
+                <div class="block-title">Choose download preference</div>
+                <div class="block download_preferences_dom">
+
+                </div>
+            </div>
+            <div class="actions-modal watch-preference-actions">
+                <div class="block-title">Choose watch preference</div>
+                <div class="block watch_preferences_dom">
+
+                </div>
+            </div>
+            <div class="actions-modal episode-preference-actions">
+                <div class="block-title">Choose episode download preference</div>
+                <div class="block episode_preferences_dom">
+
+                </div>
+            </div>
+            <div class="actions-modal episode-watch-preference-actions">
+                <div class="block-title">Choose episode watch preference</div>
+                <div class="block episode_watch_preferences_dom">
+
+                </div>
+            </div>
+            <!-- login screen -->
+            <div class="login-screen signup-page">
+                <div class="page" data-name="signup">
+                    <div class="page-content" style="padding-bottom: 0px;">
+                        <main>
+                            <header id="header" class="login_header">
+                                <img class="backdrop-img lazy" src="./pages/back_placeholder.jpeg"
+                                    data-src="https://image.tmdb.org/t/p/original/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg" />
+                                <div class="overlay"></div>
+                            </header>
+                            <section class="login">
+                                <div class="login-screen-title">Welcome to Muvi Hub</div>
+                                <div class="login-screen-inputs">
+                                    <div class="list">
+                                        <ul class="signInInputs">
+                                            <li class="item-content item-input item-input-outline">
+                                                <div class="item-media">
+                                                    <i class="icon material-icons if-md">person</i>
+                                                </div>
+                                                <div class="item-inner">
+                                                    <div class="item-title item-floating-label">User name</div>
+                                                    <div class="item-input-wrap">
+                                                        <input type="text" placeholder="Your user name" required
+                                                            validate id="signup-username" />
+                                                        <span class="input-clear-button"></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="item-content item-input item-input-outline">
+                                                <div class="item-media">
+                                                    <i class="icon material-icons if-md">mail</i>
+                                                </div>
+                                                <div class="item-inner">
+                                                    <div class="item-title item-floating-label">Email</div>
+                                                    <div class="item-input-wrap">
+                                                        <input type="email" placeholder="Enter your email" required
+                                                            validate id="signup-email" />
+                                                        <span class="input-clear-button"></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="item-content item-input item-input-outline">
+                                                <div class="item-media">
+                                                    <i class="icon material-icons if-md">password</i>
+                                                </div>
+                                                <div class="item-inner">
+                                                    <div class="item-title item-floating-label">Password</div>
+                                                    <div class="item-input-wrap">
+                                                        <input type="text" id="signup-password"
+                                                            placeholder="Your password" required validate
+                                                            pattern="^.{8,}$"
+                                                            data-error-message="Password must be at least 8 characters" />
+                                                        <span class="input-clear-button"></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="list">
+                                        <ul>
+                                            <div class="block">
+                                                <li>
+                                                    <button
+                                                        class="button button-preloader button-fill button-large signup-button">
+                                                        <span class="preloader"></span>
+                                                        <span style="pointer-events: none;">
+                                                            Sign up
+                                                        </span>
+                                                    </button>
+                                                </li>
+                                            </div>
+                                        </ul>
+                                        <div class="block-footer">
+                                            <h3 class="login-screen-txt">Already have an account ?
+                                                <a href="/login/" class="login-page-button"> Log
+                                                    in</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </main>
+                    </div>
+                </div>
+            </div>
+            <div class="login-screen login-page">
+                <div class="page" data-name="login">
+                    <div class="page-content" style="padding-bottom: 0;">
+                        <main>
+                            <header id="header" class="login_header">
+                                <img class="backdrop-img lazy" src="./pages/back_placeholder.jpeg"
+                                    data-src="https://image.tmdb.org/t/p/original/AVWlQpVhpudyFsSh3OQIieHHYf.jpg" />
+                                <div class="overlay"></div>
+                            </header>
+                            <section class="login">
+                                <div class="login-screen-title">Log into account</div>
+                                <div class="login-screen-inputs">
+                                    <div class="list">
+                                        <ul class="login-inputs">
+                                            <li class="item-content item-input item-input-outline">
+                                                <div class="item-media">
+                                                    <i class="icon material-icons if-md">mail</i>
+                                                </div>
+                                                <div class="item-inner">
+                                                    <div class="item-title item-floating-label">Enter email</div>
+                                                    <div class="item-input-wrap">
+                                                        <input type="email" placeholder="Your email" required validate
+                                                            id="login-email" />
+                                                        <span class="input-clear-button"></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="item-content item-input item-input-outline">
+                                                <div class="item-media">
+                                                    <i class="icon material-icons if-md">password</i>
+                                                </div>
+                                                <div class="item-inner">
+                                                    <div class="item-title item-floating-label">Password</div>
+                                                    <div class="item-input-wrap">
+                                                        <input type="text" placeholder="Your password" required validate
+                                                            id="login-password" />
+                                                        <span class="input-clear-button"></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="list">
+                                        <ul>
+                                            <div class="block">
+                                                <li>
+                                                    <button
+                                                        class="button button-large button-fill button-preloader login-button">
+                                                        <span class="preloader"></span>
+                                                        <span style="pointer-events: none;">Login</span>
+                                                    </button>
+                                                </li>
+                                            </div>
+                                        </ul>
+                                        <div class="block-footer">
+                                            <h3 class="login-screen-txt">
+                                                Not a member ? <a class="signup-page-button"> Signup</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- side panel with cover effect-->
+        <div class="panel panel-floating panel-left panel-init panel-resizable">
+            <div class=" view view-right">
+                <div class="page page-current">
+                    <div class="navbar">
+                        <div class="navbar-bg"></div>
+                        <div class="navbar-inner sliding">
+                            <div class="title">Muvi Hub</div>
+                        </div>
+                    </div>
+                    <div class="page-content">
+                        <div class="block">
+                            <div class="panel-header">
+                                <img src="https://cdn.framework7.io/placeholder/cats-300x300-1.jpg" width="70" alt=""
+                                    srcset="" />
+                                <p class="google-username"></p>
+                                <p class="google-email"></p>
+                            </div>
+                        </div>
+                        <div class="block-title">Panel Navigation</div>
+                        <div class="list">
+                            <ul>
+                                <li>
+                                    <a class="item-link item-content wish-link panel-close">
+                                        <div class="item-media" style="pointer-events: none;">
+                                            <i class="f7-icons">bookmark</i>
+                                        </div>
+                                        <div class="item-inner" style="pointer-events: none;">
+                                            <div class="item-title">Wishlist</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav_link_list">
+                                    <a class="item-link item-content panel-close community-link">
+                                        <div class="item-media" style="pointer-events: none;">
+                                            <i class="f7-icons">chat_bubble_2_fill</i>
+                                        </div>
+                                        <div class="item-inner" style="pointer-events: none;">
+                                            <div class="item-title">Join Community</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav_link_list">
+                                    <a class="item-link item-content panel-close community-link">
+                                        <div class="item-media" style="pointer-events: none;">
+                                            <i class="f7-icons">pencil</i>
+                                        </div>
+                                        <div class="item-inner" style="pointer-events: none;">
+                                            <div class="item-title">Report an issue</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav_link_list">
+                                    <a class="item-link item-content panel-close about-link">
+                                        <div class="item-media" style="pointer-events: none;">
+                                            <i class="f7-icons">info_circle</i>
+                                        </div>
+                                        <div class="item-inner" style="pointer-events: none;">
+                                            <div class="item-title">About</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default (props, { $f7, $update, $on, $ }) => {
+        $on("pageInit", async (e, page) => {
+
+        });
+        return $render;
+    }
+</script>

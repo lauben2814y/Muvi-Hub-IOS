@@ -63,6 +63,9 @@ let loading = false;
 let apiLoading = false;
 
 class UI {
+    // constructor(app) {
+    //     this.app = app;
+    // }
     // Fetch TMDB data
     async getMediaDetails(mediaId, mediaType) {
         const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${mediaId}?append_to_response=images%2Ccredits%2Cvideos`, options2);
@@ -84,7 +87,7 @@ class UI {
         if (query == 'latest') {
             const { data, error, count } = await supabase
                 .from('movies')
-                .select('title, id, translated, non_translated, vj, created_at, poster_path, release_date', { count: 'exact' })
+                .select('title, id, translated, non_translated, vj, created_at, poster_path, release_date, genres', { count: 'exact' })
                 .range(from, to)
                 .order('release_date', { ascending: false });
 
@@ -98,7 +101,7 @@ class UI {
         } else if (query == 'new') {
             const { data, error, count } = await supabase
                 .from('movies')
-                .select('title, id, translated, non_translated, vj, created_at, poster_path, release_date', { count: 'exact' })
+                .select('title, id, translated, non_translated, vj, created_at, poster_path, release_date, genres', { count: 'exact' })
                 .range(from, to)
                 .order('created_at', { ascending: false });
             if (error) {
@@ -113,7 +116,7 @@ class UI {
         if (query == 'latest') {
             const { data, error, count } = await supabase
                 .from('tv_shows')
-                .select('name, poster_path, first_air_date, id, seasons, created_at, vj', { count: 'exact' })
+                .select('name, poster_path, first_air_date, id, seasons, created_at, vj, genres', { count: 'exact' })
                 .range(from, to)
                 .order('first_air_date', { ascending: false });
 
@@ -126,7 +129,7 @@ class UI {
         } else if (query == 'new') {
             const { data, error, count } = await supabase
                 .from('tv_shows')
-                .select('name, poster_path, first_air_date, id, seasons, created_at, vj', { count: 'exact' })
+                .select('name, poster_path, first_air_date, id, seasons, created_at, vj, genres', { count: 'exact' })
                 .range(from, to)
                 .order('created_at', { ascending: false });
             if (error) {
@@ -152,7 +155,7 @@ class UI {
         // Execute the query
         const { data, error, count } = await supabase
             .from('movies')
-            .select('id, title, poster_path, release_date', { count: 'exact' })
+            .select('id, title, poster_path, release_date, vj', { count: 'exact' })
             .contains('genres', genres)
             .order(orderField, { ascending })
             .range(from, to);
@@ -171,7 +174,7 @@ class UI {
         if (query == 'latest') {
             response = await supabase
                 .from('tv_shows')
-                .select(`id, name, poster_path, first_air_date, category`, { count: 'exact' })
+                .select(`id, name, poster_path, first_air_date, category, vj`, { count: 'exact' })
                 .contains('genres', genres)
                 .range(from, to)
                 .order('first_air_date', { ascending: false });
@@ -236,9 +239,16 @@ class UI {
     async accessNativeFunctionality() {
         initializeFirebaseApp();
         if (window.cordova) {
-            this.readInitialDownloads();
+            cordova.plugins.StatusBarHeight.getStatusBarHeight(
+                function (value) {
+                    document.documentElement.style.setProperty('--f7-safe-area-top', `${value}px`);
+                },
+                function (error) {
+                    console.log(error);
+                }
+            );
             // Handle App links and FCM notification click
-            // this.subscribeNotification();
+            this.subscribeNotification();
             // Local Notification
             cordova.plugins.notification.local.setDefaults({
                 vibrate: false,
@@ -249,7 +259,31 @@ class UI {
                 this.cancelDownload(id);
             });
             document.addEventListener('backbutton', () => {
-                app.views.current.router.back();
+                var previousPath = app.views.current.router.previousRoute.path;
+                var currentPath = app.views.current.router.currentRoute.path;
+
+                if (previousPath != '/signup/' && previousPath != '/login/' && currentPath != '/update/') {
+                    // If the previous path is not '/signup/' or '/login/' and the current path is not '/update/'
+                    app.views.current.router.back();
+                } else if (currentPath == '/update/') {
+                    // If the current path is '/update/', show the update message
+                    var update = app.toast.create({
+                        text: 'Please update to the latest version',
+                        closeButton: true,
+                        on: {
+                            close: function () {
+                                if (window.cordova) {
+                                    var url = "https://play.google.com/store/apps/details?id=muvi.anime.hub";
+                                    cordova.InAppBrowser.open(url, '_system');
+                                } else {
+                                    console.log('updated');
+                                }
+                            },
+                        }
+                    });
+                    update.open();
+                }
+
             }, false);
             // Background mode
             cordova.plugins.backgroundMode.enable();
@@ -266,20 +300,20 @@ class UI {
                 cordova.plugins.backgroundMode.disableWebViewOptimizations();
             });
             // Firebase notification
-            // FirebasePlugin.hasPermission(function (hasPermission) {
-            //     console.log("Permission is " + (hasPermission ? "granted" : "denied"));
-            //     FirebasePlugin.getToken(function (fcmToken) {
-            //         Storage.saveToken(fcmToken);
-            //     }, function (error) {
-            //         console.error(error);
-            //     });
-            // });
-            // FirebasePlugin.subscribe("allUsers", function () {
-            //     console.log("Subscribed to topic");
-            // }, function (error) {
-            //     console.error("Error subscribing to topic: " + error);
-            // }
-            // );
+            FirebasePlugin.hasPermission(function (hasPermission) {
+                console.log("Permission is " + (hasPermission ? "granted" : "denied"));
+                FirebasePlugin.getToken(function (fcmToken) {
+                    Storage.saveToken(fcmToken);
+                }, function (error) {
+                    console.error(error);
+                });
+            });
+            FirebasePlugin.subscribe("allUsers", function () {
+                console.log("Subscribed to topic");
+            }, function (error) {
+                console.error("Error subscribing to topic: " + error);
+            }
+            );
             // handle ads
             this.loadInterstitial();
         }
@@ -346,46 +380,9 @@ class UI {
                 // Do something when the client version is newer 
             } else {
                 // Do something when versions are equal okay
+                console.log('Versions are equal');
             }
         }
-    }
-    checkReview() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const response = await fetch('https://admin-server-theta.vercel.app/isReview');
-                const result = await response.json();
-                isInReview = result;
-                if (result == true) {
-                    resolve();
-                } else {
-                    const { dummyMovies, renderDummyFilms } = await import('./dummy');
-                    var moviesDOM = document.querySelector('.movies_dom');
-                    var listContainer = document.createElement('div');
-                    listContainer.className = 'list media-list list-outline-ios list-strong-ios list-dividers-ios';
-                    var listUl = document.createElement('ul');
-                    listContainer.appendChild(listUl);
-                    var mediaArr = dummyMovies.slice(0, 10);
-                    renderDummyFilms(mediaArr, listUl, 'main');
-                    moviesDOM.appendChild(listContainer);
-                    if (document.querySelector('#movie_scroll_preloader')) {
-                        document.querySelector('#movie_scroll_preloader').remove();
-                    }
-                    var showsDOM = document.querySelector('.shows_dom');
-                    var listContainer1 = document.createElement('div');
-                    listContainer1.className = 'list media-list list-outline-ios list-strong-ios list-dividers-ios';
-                    var listUl = document.createElement('ul');
-                    listContainer1.appendChild(listUl);
-                    var mediaArr1 = dummyMovies.slice(10, 20);
-                    renderDummyFilms(mediaArr1, listUl, 'main');
-                    showsDOM.appendChild(listContainer1);
-                    if (document.querySelector('#show_scroll_preloader')) {
-                        document.querySelector('#show_scroll_preloader').remove();
-                    }
-                }
-            } catch (error) {
-                reject(error);
-            }
-        });
     }
     async handleAppLinks(url) {
         if (url != undefined) {
@@ -450,33 +447,29 @@ class UI {
             // Hide splashscreen
             window.setTimeout(() => {
                 navigator.splashscreen.hide();
-            }, 1000);
-            // Check for review
-            await this.checkReview();
-            // Check for updates
-            // await this.checkForUpdates();
+            }, 2000);
             // Subscribe App links
-            // this.subscribeAppLink();
+            this.subscribeAppLink();
             // Subscribe Rewarded Interstitial Add
-            app.$$(document).on('page:beforein', async (e) => {
-                if (e.target.id == 'main') {
-                    if (rewardedInterstitialTimer == 3) {
-                        await rewardedInterstitial.show();
-                        console.log('Showing rewarded interstitial ...');
-                        rewardedInterstitialTimer = 1;
-                    } else if (rewardedInterstitialTimer == 1) {
-                        if (rewardedInterstitialLoaded == false) {
-                            console.log('Loading rewarded interstitial for the first time ...');
-                            rewardedInterstitialLoaded = true;
-                            this.loadRewardedInterstitial();
-                        }
-                        rewardedInterstitialTimer += 1;
-                    } else {
-                        rewardedInterstitialTimer += 1;
-                    }
-                }
+            // app.$$(document).on('page:beforein', async (e) => {
+            //     if (e.target.id == 'main') {
+            //         if (rewardedInterstitialTimer == 3) {
+            //             await rewardedInterstitial.show();
+            //             console.log('Showing rewarded interstitial ...');
+            //             rewardedInterstitialTimer = 1;
+            //         } else if (rewardedInterstitialTimer == 1) {
+            //             if (rewardedInterstitialLoaded == false) {
+            //                 console.log('Loading rewarded interstitial for the first time ...');
+            //                 rewardedInterstitialLoaded = true;
+            //                 this.loadRewardedInterstitial();
+            //             }
+            //             rewardedInterstitialTimer += 1;
+            //         } else {
+            //             rewardedInterstitialTimer += 1;
+            //         }
+            //     }
 
-            });
+            // });
         }
     }
     // Download Methods
@@ -847,6 +840,16 @@ class UI {
             const poster = mediaItem.poster_path;
             const id = mediaItem.id;
 
+            // Create vjSpan element once, if needed
+            let vjSpanText = '';
+
+            if (mediaItem.vj) {
+                vjSpanText = mediaItem.vj;
+            } else if (mediaItem.non_available || mediaItem.non_translated || mediaItem.category === 'serie') {
+                vjSpanText = 'non translated';
+            }
+
+            // Construct the HTML for the media item
             return `
                 <div class="media_card">
                     <div class="media">
@@ -854,9 +857,10 @@ class UI {
                              data-id="${id}" 
                              data-name="${type}" 
                              data-page="main" 
-                             data-format=${dataFormat}
+                             data-format="${dataFormat}"
                              src="./pages/placeholder.webp"
-                             data-src="https://image.tmdb.org/t/p/w500${poster}">
+                             data-src="https://image.tmdb.org/t/p/w500${poster}" />
+                             ${vjSpanText ? `<span class="media_vj">${vjSpanText}</span>` : ''}
                     </div>
                     <div class="details">
                         <h4>${title}</h4>
@@ -865,6 +869,7 @@ class UI {
                 </div>
             `;
         }).join('');
+
 
         // Add the media items HTML string to the content container
         content.innerHTML = mediaItemsHTML;
@@ -895,6 +900,15 @@ class UI {
             const poster = mediaItem.poster_path;
             const id = mediaItem.id;
 
+            // Create vjSpan element once, if needed
+            let vjSpanText = '';
+
+            if (mediaItem.vj) {
+                vjSpanText = mediaItem.vj;
+            } else if (mediaItem.non_available || mediaItem.non_translated || mediaItem.category === 'serie') {
+                vjSpanText = 'non translated';
+            }
+
             // Create media card
             const mediaCard = document.createElement('div');
             mediaCard.className = 'media_card';
@@ -909,6 +923,7 @@ class UI {
                          data-format=${dataFormat}
                          data-src="${baseImageUrl}${poster}"
                          src="${placeholderImage}" />
+                         ${vjSpanText ? `<span class="media_vj">${vjSpanText}</span>` : ''}
                 </div>
                 <div class="details">
                     <h4>${shortenName}</h4>
@@ -925,7 +940,6 @@ class UI {
         // utilities
         var titleProp = data[0].release_date ? 'title' : 'name';
         var typeProp = data[0].release_date ? 'movie' : 'tv';
-        var genreType = data[0].release_date ? movieGenres : showGenres;
         const debounce = (func, delay) => {
             let timer;
             return function (...args) {
@@ -933,20 +947,13 @@ class UI {
                 timer = setTimeout(() => func.apply(this, args), delay);
             };
         };
-        const getGenres = (genreIds) => {
-            var genreNames = genreIds.map(id => {
-                var genre = genreType.find(genre => genre.id === id);
-                return genre ? genre.name : null;
-            }).filter(name => name !== null);
-            return genreNames.join(", ");
-        }
         function sliderWishlist(doesExist, sliderBtnDOM) {
             if (doesExist) {
-                sliderBtnDOM.firstElementChild.innerText = 'bookmark_fill';
+                sliderBtnDOM.firstElementChild.className = 'material-icons';
                 sliderBtnDOM.lastElementChild.innerText = 'Added';
                 sliderBtnDOM.style.pointerEvents = 'none';
             } else {
-                sliderBtnDOM.firstElementChild.innerText = 'bookmark';
+                sliderBtnDOM.firstElementChild.className = 'material-icons-outlined';
                 sliderBtnDOM.lastElementChild.innerText = 'Wishlist';
                 sliderBtnDOM.style.pointerEvents = 'all';
             }
@@ -964,25 +971,33 @@ class UI {
             elements.movieSliderGenres.textContent = genres;
             elements.previewBtn.dataset.id = id;
             elements.movieSliderWishBtn.dataset.id = id;
-
             elements.previewBtn.classList.add('movie_poster');
             elements.previewBtn.dataset.id = id;
 
             const exists = checkkWishList(id);
             sliderWishlist(exists, elements.movieSliderWishBtn);
         };
-
         elements.sliderImages.forEach((swiperImage, index) => {
+            var swiperImageContainer = swiperImage.parentElement;
             const media = data[index];
-            const { id, genre_ids, poster_path } = media;
+            const { id, poster_path, genres } = media;
             sliderCache[id] = media;
+            var vjSpan = document.createElement('span');
+            vjSpan.className = 'media_vj'
+
+            if (media.vj) {
+                vjSpan.innerText = media.vj;
+            } else if (media.non_available || media.non_translated || media.category === 'serie') {
+                vjSpan.innerText = 'non translated';
+            }
 
             swiperImage.src = `https://image.tmdb.org/t/p/w500${poster_path}`;
             swiperImage.dataset.id = id;
             swiperImage.dataset.title = media[titleProp];
             swiperImage.dataset.page = 'main';
             swiperImage.dataset.name = typeProp;
-            swiperImage.dataset.genres = getGenres(genre_ids);
+            swiperImage.dataset.genres = genres.join(", ");
+            swiperImageContainer.appendChild(vjSpan);
         });
         updateSliderUI();
         const activeSlide = swiper.slides[swiper.activeIndex].firstElementChild;
@@ -1057,7 +1072,7 @@ class UI {
             if (isInReview == false) {
                 return;
             }
-            // detail pages logic
+            // Detail pages logic
             var id = event.target.dataset.id;
             var type = event.target.dataset.name;
             var page = event.target.dataset.page;
@@ -1071,6 +1086,7 @@ class UI {
                     if (cache.cast) {
                         media = cache;
                     } else {
+                        app.preloader.show();
                         let data = await this.getMediaDetails(id, type);
                         Object.assign(cache, {
                             cast: data.credits.cast.filter(cast => cast.profile_path != null),
@@ -1225,24 +1241,7 @@ class UI {
             let parts = url.split('.');
             var ext = parts[parts.length - 1];
             var fileName = `${title.replace(/[:,\-_\s?!'\"@()]/g, '')}.${ext}`;
-            // console.log(url, backdropURL, title, fileName);
-            var Downloader = window.plugins.Downloader;
-
-            var downloadSuccessCallback = function (folder) {
-                console.log(folder);
-            };
-
-            var downloadErrorCallback = function (error) {
-                // error: string
-            };
-
-
-            var options = {
-                url: url, // File Url
-                path: fileName, // The File Name with extension
-            }
-
-            Downloader.download(options, downloadSuccessCallback, downloadErrorCallback);
+            console.log(url, backdropURL, title, fileName);
 
             var id = Date.now();
             var file = {
@@ -1471,17 +1470,13 @@ class UI {
             Storage.saveWishList(newWishlist);
             parentDOM.removeChild(card);
         } else if (target.classList.contains('share_btn')) {
-            // var mediaId = event.target.dataset.id;
-            // var type = event.target.dataset.type;
-            // var posterUrl = event.target.dataset.poster;
-            // var mediaName = event.target.dataset.name;
-            // console.log(type, mediaId);
-            // var link = `https://kamumedia.online/${type}/${mediaId}`;
-            // window.plugins.socialsharing.share(`${mediaName}`, null, `${posterUrl}`, link);
-            app.toast.create({
-                text: 'Coming soon',
-                closeTimeout: 2000,
-            }).open();
+            var mediaId = event.target.dataset.id;
+            var type = event.target.dataset.type;
+            var posterUrl = event.target.dataset.poster;
+            var mediaName = event.target.dataset.name;
+            console.log(type, mediaId);
+            var link = `https://kamumedia.online/${type}/${mediaId}`;
+            window.plugins.socialsharing.share(`${mediaName}`, null, `${posterUrl}`, link);
         } else if (event.target.classList.contains('play_downloaded_video')) {
             let url = event.target.dataset.url;
             cordova.plugins.fileOpener2.showOpenWithDialog(
@@ -1509,11 +1504,8 @@ class UI {
             var container = document.querySelector('.filter-container');
             container.classList.toggle('show');
         } else if (target.classList.contains('search_icon')) {
-            if (true) {
-                app.views.current.router.navigate('/search/');
-            } else {
-                app.views.current.router.navigate('/about/');
-            }
+            // app.views.current.router.navigate('/search/');
+            app.views.current.router.navigate('/about/');
         } else if (target.classList.contains('wish-link')) {
             app.views.current.router.navigate('/wishlist/');
         } else if (target.classList.contains('about-link')) {
@@ -1524,9 +1516,73 @@ class UI {
         } else if (target.classList.contains('update-playstore-btn')) {
             var url = "https://play.google.com/store/apps/details?id=muvi.anime.hub";
             cordova.InAppBrowser.open(url, '_system');
+        } else if (target.classList.contains('login-page-button')) {
+            this.app.loginScreen.open('.login-page', true)
+            this.app.loginScreen.close('.signup-page', true);
+        } else if (target.classList.contains('signup-page-button')) {
+            this.app.loginScreen.open('.signup-page', true)
+            this.app.loginScreen.close('.login-page', true);
+        } else if (target.classList.contains('signup-button')) {
+            const { getAuth, createUserWithEmailAndPassword, updateProfile } = await import('firebase/auth');
+            var inputContainer = document.querySelector('.signInInputs');
+            const userName = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const auth = getAuth();
+
+            if (this.app.input.validateInputs(inputContainer)) {
+                event.target.classList.add('button-loading');
+                event.target.disabled = true;
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        updateProfile(auth.currentUser, {
+                            displayName: userName
+                        })
+
+                    })
+                    .catch((error) => {
+                        if (error.code === 'auth/email-already-in-use') {
+                            this.app.dialog.alert('Email you entered exists');
+                        } else {
+                            console.error(error.message);
+                        }
+                        event.target.classList.remove('button-loading');
+                        event.target.disabled = false;
+                    });
+            } else {
+                this.app.input.validateInputs(inputContainer);
+            }
+        } else if (target.classList.contains('login-button')) {
+            const { getAuth, signInWithEmailAndPassword } = await import('firebase/auth');
+            var inputsContainer = document.querySelector('.login-inputs');
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            if (this.app.input.validateInputs(inputsContainer)) {
+                event.target.classList.add('button-loading');
+                event.target.disabled = true;
+                const auth = getAuth();
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                    })
+                    .catch((error) => {
+                        if (error.code === 'auth/user-not-found') {
+                            showSignUpConfirm()
+                        } else if (error.code == 'auth/wrong-password') {
+                            this.app.dialog.alert('wrong passsword !', 'Alert');
+                        } else if (error.code == 'auth/too-many-requests') {
+                            this.app.dialog.alert('too many requests sign up instead !', 'Alert');
+                        }
+                        event.target.classList.remove('button-loading');
+                        event.target.disabled = false;
+                    });
+            } else {
+                this.app.input.validateInputs(inputsContainer);
+            }
         }
     }
-    // observer scroll logic
+    // Observer scroll logic
     handleIntersection(entries, observer) {
         entries.forEach(async entry => {
             if (entry.isIntersecting) {
@@ -1662,28 +1718,30 @@ class UI {
             movieSliderGenres: document.querySelector('.slider_genres_movie')
         };
 
-        // Trending and Popular movies
-        const [trendingData, popularData] = await Promise.all([
-            this.getTrendingMedia('movie', 'trending', 1),
-            this.getPopularMedia('movie', 'popular', 1)
-        ]);
-
         // Supabase movie data
         const [recentMovies, latestMovies] = await Promise.all([
             this.getSupabaseMovies('new', 0, 10),
             this.getSupabaseMovies('latest', 0, 10)
         ]);
 
+        // Trending and Popular movies
+        const [trendingData, popularData] = await Promise.all([
+            this.getTrendingMedia('movie', 'trending', 1),
+            this.getPopularMedia('movie', 'popular', 1)
+        ]);
+
         await Promise.all([
-            this.renderSlider(elements, trendingData, app.movieSlider),
+            this.renderSlider(elements, recentMovies.data, app.movieSlider),
+            this.renderViewMedia(elements.moviesDOM, recentMovies.data, 'movie', 'Recently uploaded'),
+            this.renderViewMedia(elements.moviesDOM, latestMovies.data, 'movie', 'Latest on Muvi')
+        ]);
+
+        await Promise.all([
+            // this.renderSlider(elements, trendingData, app.movieSlider),
             this.renderViewMedia(elements.moviesDOM, trendingData, 'movie', 'Trending'),
             this.renderViewMedia(elements.moviesDOM, popularData, 'movie', 'Popular')
         ]);
 
-        await Promise.all([
-            this.renderViewMedia(elements.moviesDOM, recentMovies.data, 'movie', 'Recently uploaded'),
-            this.renderViewMedia(elements.moviesDOM, latestMovies.data, 'movie', 'Latest on Muvi')
-        ]);
 
         lazyLoad.update();
         const containers = document.querySelectorAll('.content');
@@ -1702,28 +1760,29 @@ class UI {
             movieSliderGenres: document.querySelector('.slider_genres_show')
         }
 
-        // Trending and popular shows plus slider
-        const [trendingData, popularData] = await Promise.all([
-            this.getTrendingMedia('tv', 'trending', 1),
-            this.getPopularMedia('tv', 'popular', 1)
-        ]);
-
         // Supabase show data
         const [recentShows, latestShows] = await Promise.all([
             this.getSupabaseShows('new', 0, 10),
             this.getSupabaseShows('latest', 0, 10)
         ]);
 
+        // Trending and popular shows plus slider
+        const [trendingData, popularData] = await Promise.all([
+            this.getTrendingMedia('tv', 'trending', 1),
+            this.getPopularMedia('tv', 'popular', 1)
+        ]);
+
         await Promise.all([
-            this.renderSlider(elements, trendingData, app.tvSlider),
+            this.renderSlider(elements, recentShows.data, app.tvSlider),
+            this.renderViewMedia(elements.showsDOM, recentShows.data, 'tv', 'Recently uploaded'),
+            this.renderViewMedia(elements.showsDOM, latestShows.data, 'tv', 'Latest on Muvi')
+        ]);
+
+        await Promise.all([
             this.renderViewMedia(elements.showsDOM, trendingData, 'tv', 'Trending'),
             this.renderViewMedia(elements.showsDOM, popularData, 'tv', 'Popular')
         ]);
 
-        await Promise.all([
-            this.renderViewMedia(elements.showsDOM, recentShows.data, 'tv', 'Recently uploaded'),
-            this.renderViewMedia(elements.showsDOM, latestShows.data, 'tv', 'Latest on Muvi')
-        ]);
         lazyLoad.update();
 
         const containers = document.querySelectorAll('.content');

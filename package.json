@@ -39,12 +39,10 @@
     "babel-loader": "^9.1.3",
     "copy-webpack-plugin": "^12.0.2",
     "cordova-androidx-build": "^1.0.4",
-    "cordova-plugin-app-version": "github:MrRotella/cordova-plugin-app-version",
     "cordova-plugin-background-download": "github:PreciousBiscuit/cordova-plugin-background-download",
     "cordova-plugin-background-mode": "github:brunochikuji/cordova-plugin-background-mode",
     "cordova-plugin-badge": "^0.8.9",
     "cordova-plugin-device": "^2.1.0",
-    "cordova-plugin-downloader": "github:asadaries/cordova-plugin-downloader",
     "cordova-plugin-file": "^8.0.1",
     "cordova-plugin-file-opener2": "github:pwlin/cordova-plugin-file-opener2",
     "cordova-plugin-file-transfer": "^2.0.0",
@@ -81,13 +79,11 @@
     "platforms": [],
     "plugins": {
       "cordova-plugin-streaming-media": {},
-      "cordova-plugin-downloader": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-file": {
         "ANDROIDX_WEBKIT_VERSION": "1.4.0"
       },
       "cordova-plugin-file-transfer": {},
-      "cordova-plugin-deeplinks": {},
       "cordova-plugin-x-socialsharing": {},
       "cordova-plugin-background-download": {},
       "cordova-plugin-file-opener2": {},
@@ -100,8 +96,7 @@
         "PLAY_SERVICES_VERSION": "23.0.0"
       },
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-app-version": {}
+      "cordova-plugin-inappbrowser": {}
     }
   },
   "main": "dummy.js",

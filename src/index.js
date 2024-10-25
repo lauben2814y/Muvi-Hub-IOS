@@ -1,11 +1,13 @@
 import Framework7 from './js/framework7-custom';
 import { routes } from './js/routes';
 import ui from './js/main.ui';
+import App from './pages/app.f7.html';
 
 const app = new Framework7({
   name: 'Muvi Hub',
   theme: 'ios',
   init: false,
+  component: App,
   colors: {
     primary: '#800080'
   },

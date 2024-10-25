@@ -27,6 +27,27 @@ By running `cordova platform add ios@7.1.1` all the plugins in `package.json` wi
 
 Please note the IOS version support and usage for the plugin as it defers from android
 
+## Removed plugins
+
+Deeplinks
+
+```
+github:thing-it/cordova-plugin-deeplink
+```
+
+## Notes
+
+Change the output in `webpack.config.js`
+
+```
+output: {
+    filename: 'js/[name].js',
+    path: path.resolve(__dirname, 'www'),
+    clean: true,
+    publicPath: isProduction ? '/* vercel project here */' : '/',  
+  }
+```
+
 ## Documentation & Resources
 
 Muvi-Hub uses the [Framework 7](https://framework7.io) UI libary for reference

@@ -213,3 +213,124 @@
     transform: scale(0.9);
   }
 }
+
+/* styles for short phone 🤣 */
+@media (max-height: 650px) {
+  :root {
+    --f7-panel-width: 220px;
+  }
+  .ios {
+    --f7-toolbar-font-size: 14px;
+    --f7-list-item-text-font-size: 13px;
+    --f7-list-font-size: 13px;
+    --f7-list-item-subtitle-font-size: 12px;
+  }
+  /* slider responsiveness */
+  #main-swiper .swiper-slide {
+    width: 125px;
+    height: 170px;
+  }
+
+  .swiper_details h2 {
+    font-size: 13px;
+  }
+
+  .swiper_details ul {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .slider_buttons .preview_btn_movie,
+  .slider_buttons .preview_btn_movie1 {
+    height: 32px;
+  }
+
+  .md .tabbar-icons .tab-link,
+  .md .tabbar-icons .link {
+    padding-top: 10px;
+  }
+
+  .container .content .media_card {
+    width: 100px;
+  }
+
+  .container .content .media {
+    width: 100px;
+    height: 140px;
+  }
+
+  .container .content {
+    gap: 5px;
+  }
+
+  .container .header h3 {
+    font-size: 12px;
+  }
+
+  .slider_button span:nth-child(1) {
+    transform: scale(0.8);
+  }
+
+  header .details .action_buttons .action_button span:nth-child(2) {
+    margin: 6px 0 0 0;
+    font-size: 9px;
+  }
+
+  header .details .action_buttons .action_button span:nth-child(1) {
+    transform: scale(0.85);
+  }
+
+  .details .buttons button {
+    height: 32px;
+  }
+
+  .fab > a i {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(0.9);
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+
+  .block-title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 10px;
+  }
+
+  .panel-header p {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .panel .block {
+    margin: 20px 0;
+  }
+
+  .panel-header img {
+    width: 60px;
+  }
+
+  #main-swiper .swiper-slide .media_vj {
+    font-size: 12px;
+  }
+
+  header .details .f7-icons {
+    font-size: 20px;
+  }
+
+  .page_toolbar_1,
+  .page_toolbar_2 {
+    height: 40px;
+  }
+
+  .list_poster_img {
+    width: 65px;
+    height: 80px;
+  }
+
+  .still_image {
+    width: 120px;
+    height: 80px;
+  }
+}

@@ -20,6 +20,14 @@
   text-align: center;
 }
 
+#main-swiper .swiper-slide .media_vj {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background-color: #30262e;
+  padding: 2px 5px;
+}
+
 .swiper_details ul {
   display: flex;
   justify-content: center;

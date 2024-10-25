@@ -1,6 +1,18 @@
 import { ensureModulesLoaded, loadUIMethods } from './loadmodules';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+// Pages
+import morePage1 from '../pages/more.f7.html';
+import morePage2 from '../pages/more_2.f7.html';
+import movieDetailsPage1 from '../pages/moviepage_1.f7.html';
+import movieDetailsPage2 from '../pages/moviepage_2.f7.html';
+import tvDetailsPage1 from '../pages/tvshows_1.f7.html';
+import tvDetailsPage2 from '../pages/tvshows_2.f7.html';
+
+import searchPage from '../pages/searchpage.f7.html';
+import wishListPage from '../pages/wishlist.f7.html';
+import trailerPage from '../pages/play_trailer.f7.html';
+
 export var routes = [
     {
         path: '/movies/',
@@ -12,12 +24,18 @@ export var routes = [
                 if (user) {
                     document.querySelector('.google-email').innerText = user.email;
                     document.querySelector('.google-username').innerText = user.displayName;
-                    // userName.innerText = user.displayName;
-                    // userEmail.innerText = user.email;
+                    setTimeout(() => {
+                        // this.app.loginScreen.close('.login-screen', true);
+                    }, 1000)
                     resolve();
                 } else {
                     reject();
-                    router.navigate('/signup/');
+                    window.setTimeout(() => {
+                        if (window.cordova) {
+                            navigator.splashscreen.hide();
+                        }
+                    }, 1500);
+                    this.app.loginScreen.open('.signup-page', true);
                     return;
                 }
             });
@@ -51,43 +69,35 @@ export var routes = [
     },
     {
         path: '/more/',
-        asyncComponent: () => import('../pages/more.f7.html'),
+        component: morePage1,
     },
     {
         path: '/more_2/',
-        asyncComponent: () => import('../pages/more_2.f7.html'),
+        component: morePage2,
     },
     {
         path: '/movie_page_1/',
-        asyncComponent: () => import('../pages/moviepage_1.f7.html'),
+        component: movieDetailsPage1,
     },
     {
         path: '/movie_page_2/',
-        asyncComponent: () => import('../pages/moviepage_2.f7.html'),
+        component: movieDetailsPage2,
     },
     {
         path: '/tvshows_page_1/',
-        asyncComponent: () => import('../pages/tvshows_1.f7.html'),
+        component: tvDetailsPage1,
     },
     {
         path: '/tvshows_page_2/',
-        asyncComponent: () => import('../pages/tvshows_2.f7.html'),
+        component: tvDetailsPage2,
     },
     {
         path: '/search/',
-        asyncComponent: () => import('../pages/searchpage.f7.html'),
-    },
-    {
-        path: '/signup/',
-        asyncComponent: () => import('../pages/signup.f7.html'),
-    },
-    {
-        path: '/login/',
-        asyncComponent: () => import('../pages/login.f7.html'),
+        component: searchPage,
     },
     {
         path: '/wishlist/',
-        asyncComponent: () => import('../pages/wishlist.f7.html'),
+        component: wishListPage,
     },
     {
         path: '/about/',
@@ -95,7 +105,7 @@ export var routes = [
     },
     {
         path: '/play_trailer/',
-        asyncComponent: () => import('../pages/play_trailer.f7.html'),
+        component: trailerPage,
     },
     {
         path: '/update/',
