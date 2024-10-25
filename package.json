@@ -19,7 +19,6 @@
   "dependencies": {
     "@parrino/cordova-plugin-local-notifications": "^1.0.1",
     "@supabase/supabase-js": "^2.45.4",
-    "admob-plus-cordova": "2.0.0-alpha.18",
     "dom7": "^4.0.6",
     "dotenv": "^16.4.5",
     "framework7": "^8.3.0",
@@ -90,10 +89,6 @@
       "cordova-plugin-background-mode": {},
       "cordova-plugin-local-notification": {
         "ANDROID_SUPPORT_V4_VERSION": "26.+"
-      },
-      "admob-plus-cordova": {
-        "APP_ID_ANDROID": "ca-app-pub-2115223186894781~3348299908",
-        "PLAY_SERVICES_VERSION": "23.0.0"
       },
       "cordova-plugin-statusbar": {},
       "cordova-plugin-inappbrowser": {}

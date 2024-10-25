@@ -54,7 +54,20 @@ module.exports = {
       filename: 'index.html',
       template: './src/index.html',
       // Custom function to inject cordova.js after Webpack scripts
-    }),
+    }), function () {
+      this.hooks.compilation.tap('HtmlWebpackPlugin', (compilation) => {
+        HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(
+          'InjectCordovaScript',
+          (data, cb) => {
+            const cordovaScript = '<script defer="defer" src="cordova.js"></script>';
+            const closingHeadTagIndex = data.html.indexOf('</head>');
+            data.html = data.html.slice(0, closingHeadTagIndex) + cordovaScript + data.html.slice(closingHeadTagIndex);
+
+            cb(null, data);
+          }
+        );
+      });
+    },
     new CopyWebpackPlugin({
       patterns: [
         {

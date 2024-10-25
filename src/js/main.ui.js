@@ -2,11 +2,13 @@
 import { initializeFirebaseApp } from './firebase.auth';
 import { movieSlider } from './slider';
 import { showSlider } from './slider';
-import { movieGenres, showGenres } from './data';
+import { dummyMovies } from './dummy';
+import { renderDummyFilms } from './dummy';
 // select UI
 var downloadedDOM = document.querySelector('.downloaded_dom');
 var amountDownloaded = document.querySelector('.download_amount');
 var downloadDOM = document.querySelector('.download_dom');
+import { getAuth } from 'firebase/auth';
 // Supabase
 import { createClient } from '@supabase/supabase-js';
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
@@ -18,7 +20,7 @@ var app;
 let observer;
 const sliderCache = {};
 var lazyLoad;
-var isInReview;
+var isInReview = false;
 const options = {
     method: 'GET',
     headers: {
@@ -63,9 +65,9 @@ let loading = false;
 let apiLoading = false;
 
 class UI {
-    // constructor(app) {
-    //     this.app = app;
-    // }
+    constructor(app) {
+        this.app = app;
+    }
     // Fetch TMDB data
     async getMediaDetails(mediaId, mediaType) {
         const response = await fetch(`https://api.themoviedb.org/3/${mediaType}/${mediaId}?append_to_response=images%2Ccredits%2Cvideos`, options2);
@@ -1069,9 +1071,9 @@ class UI {
             var cache = dataCache[id];
             app.views.current.router.navigate(routePath, { props: cache });
         } else if (target.classList.contains('movie_poster')) {
-            if (isInReview == false) {
-                return;
-            }
+            // if (isInReview == false) {
+            //     return;
+            // }
             // Detail pages logic
             var id = event.target.dataset.id;
             var type = event.target.dataset.name;
@@ -1792,5 +1794,5 @@ class UI {
 
     }
 }
-var ui = new UI();
-export default ui;
+
+export default UI;

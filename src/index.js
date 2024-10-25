@@ -2,6 +2,7 @@ import Framework7 from './js/framework7-custom';
 import { routes } from './js/routes';
 import ui from './js/main.ui';
 import App from './pages/app.f7.html';
+import UI from './js/main.ui';
 
 const app = new Framework7({
   name: 'Muvi Hub',
@@ -26,8 +27,10 @@ import './css/responsive.css';
 
 // Main entry for app
 document.addEventListener('DOMContentLoaded', async () => {
-  app.ui.accessNativeFunctionality();
   app.init();
+  var ui = new UI(app);
+  app.ui = ui;
+  await ui.accessNativeFunctionality();
 });
 
 // Admob ads dismissal
